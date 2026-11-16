@@ -9,5 +9,8 @@ Where to get
 Modrinth: https://modrinth.com/mod/fabric-api
 Curseforge: https://www.curseforge.com/minecraft/mc-mods/fabric-api
 
+Crucial: You also need forge config API
+Modrinth: https://modrinth.com/mod/forge-config-api-port/versions?g=1.21.11&l=fabric
+
 
 This mod will be finished soon enough.
