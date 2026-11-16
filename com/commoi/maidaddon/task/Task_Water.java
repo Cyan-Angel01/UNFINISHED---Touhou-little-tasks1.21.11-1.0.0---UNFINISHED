@@ -17,11 +17,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class Task_Water implements IMaidTask {
    public Identifier getUid() {
-      return Identifier.of("maidaddon", "water")
+      return Identifier.of("maidaddon", "water");
    }
 
    public ItemStack getIcon() {
-      return new ItemStack(Items.WATER_BUCKET)
+      return new ItemStack(Items.WATER_BUCKET);
    }
 
    public @Nullable SoundEvent getAmbientSound(EntityMaid maid) {
@@ -30,7 +30,7 @@ public class Task_Water implements IMaidTask {
 
    public List<String> getDescription(EntityMaid maid) {
       List<String> desc = Lists.newArrayList();
-      desc.add(class_2561.method_43471("task.maidaddon.water.desc").getString());
+      desc.add(Text.translatable("task.maidaddon.water.desc").getString());
       desc.add("");
       desc.add("§6[Extra Condition]");
     boolean hasWater = hasWaterBucket(maid);
