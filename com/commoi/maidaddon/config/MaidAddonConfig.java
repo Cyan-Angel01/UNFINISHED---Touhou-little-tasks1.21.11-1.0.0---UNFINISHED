@@ -4,7 +4,7 @@ import com.commoi.maidaddon.task.fuel.FuelingAlgorithm;
 import com.commoi.maidaddon.task.sort.SortAlgorithm;
 import java.util.Arrays;
 import java.util.List;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class MaidAddonConfig {
