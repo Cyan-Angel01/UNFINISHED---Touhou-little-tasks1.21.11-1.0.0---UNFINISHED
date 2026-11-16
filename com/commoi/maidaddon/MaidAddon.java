@@ -1,14 +1,14 @@
 package com.commoi.maidaddon;
 
 import com.commoi.maidaddon.config.MaidAddonConfig;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
-import net.minecraftforge.fml.config.ModConfig.Type;
+import net.neoforged.fml.config.ModConfig;
 
 public class MaidAddon implements ModInitializer {
    public static final String MOD_ID = "maidaddon";
 
    public void onInitialize() {
-      ForgeConfigRegistry.INSTANCE.register("maidaddon", Type.COMMON, MaidAddonConfig.COMMON_SPEC, "maidaddon.toml");
+     NeoForgeConfigRegistry.INSTANCE.register("maidaddon", ModConfig.Type.COMMON, MaidAddonConfig.COMMON_SPEC, "maidaddon.toml");
    }
 }
