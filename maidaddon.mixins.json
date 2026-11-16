@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.commoi.maidaddon.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EntityMaidMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "touhou_tasks-refmap.json"
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "maidaddon",
+  "version": "1.0.0",
+  "name": "Touhou Little Tasks",
+  "description": "Adds more tasks to Touhou Little Maid",
+  "authors": [
+    "Commoi and Kaito-Yozora"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/maidaddon/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.commoi.maidaddon.MaidAddon"
+    ],
+    "little_maid_extension": [
+      "com.commoi.maidaddon.MaidAddonIntegration"
+    ],
+    "modmenu": [
+      "com.commoi.maidaddon.integration.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "maidaddon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "java": "\u003e\u003d21",
+    "fabric-api": "*",
+    "touhou_little_maid": "*"
+  }
+}

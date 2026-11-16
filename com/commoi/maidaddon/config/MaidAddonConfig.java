@@ -1,0 +1,112 @@
+package com.commoi.maidaddon.config;
+
+import com.commoi.maidaddon.task.fuel.FuelingAlgorithm;
+import com.commoi.maidaddon.task.sort.SortAlgorithm;
+import java.util.Arrays;
+import java.util.List;
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
+
+public class MaidAddonConfig {
+   public static final ForgeConfigSpec COMMON_SPEC;
+   public static final MaidAddonConfig COMMON;
+   public static ForgeConfigSpec.IntValue MINING_MAX_VEIN_SIZE;
+   public static ForgeConfigSpec.IntValue MINING_SCAN_RANGE;
+   public static ForgeConfigSpec.BooleanValue MINING_XRAY_MODE;
+   public static ForgeConfigSpec.BooleanValue MINING_ALLOW_TOOL_BREAK;
+   public static ForgeConfigSpec.BooleanValue MINING_CHECK_TOOL_TIER;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> MINING_BLACKLIST;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> MINING_WHITELIST;
+   public static ForgeConfigSpec.BooleanValue LOGGING_CHOP_PLACED;
+   public static ForgeConfigSpec.BooleanValue LOGGING_AUTO_REPLANT;
+   public static ForgeConfigSpec.BooleanValue LOGGING_ALLOW_TOOL_BREAK;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> LOGGING_BLACKLIST;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> LOGGING_WHITELIST;
+   public static ForgeConfigSpec.IntValue WATER_RETRIEVE_DELAY;
+   public static ForgeConfigSpec.DoubleValue WATER_MIN_FALL_DISTANCE;
+   public static ForgeConfigSpec.IntValue WATER_LOOKAHEAD;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_USE_BACKPACK;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_INFINITE_POTIONS;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_POTIONS_SELF;
+   public static ForgeConfigSpec.DoubleValue ALCHEMIST_HEAL_THRESHOLD;
+   public static ForgeConfigSpec.IntValue ALCHEMIST_THROW_DELAY;
+   public static ForgeConfigSpec.IntValue ALCHEMIST_THROW_COOLDOWN;
+   public static ForgeConfigSpec.DoubleValue ALCHEMIST_FRIENDLY_FIRE_RANGE;
+   public static ForgeConfigSpec.IntValue ORGANIZING_SORT_COOLDOWN;
+   public static ForgeConfigSpec.IntValue ORGANIZING_ANIMATION_TICKS;
+   public static ForgeConfigSpec.EnumValue<SortAlgorithm> ORGANIZING_ALGORITHM;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> ORGANIZING_BLACKLIST;
+   public static ForgeConfigSpec.IntValue FUELING_FURNACE_COOLDOWN;
+   public static ForgeConfigSpec.EnumValue<FuelingAlgorithm> FUELING_ALGORITHM;
+   public static ForgeConfigSpec.BooleanValue FUELING_SAVE_FUEL;
+   public static ForgeConfigSpec.BooleanValue FUELING_STRICTLY_NO_WASTE;
+   public static ForgeConfigSpec.BooleanValue FUELING_USE_INVENTORY_FUELS;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> FUELING_BLACKLIST;
+   public static ForgeConfigSpec.ConfigValue<List<? extends String>> FUELING_ITEM_BLACKLIST;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_THROW_NEGATIVE;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_THROW_POSITIVE;
+   public static ForgeConfigSpec.BooleanValue ALCHEMIST_HEAL_UNDEAD;
+
+   public MaidAddonConfig(ForgeConfigSpec.Builder builder) {
+      builder.push("logging");
+      builder.comment("Settings for the Woodcutter Task");
+      LOGGING_CHOP_PLACED = builder.comment("If true, maids will chop logs even if they don't have connected leaves (e.g. placed by players).").translation("config.maidaddon.logging.chop_placed_logs").define("ChopPlacedLogs", false);
+      LOGGING_AUTO_REPLANT = builder.comment("If true, maid attempts to replant saplings from inventory after chopping.").translation("config.maidaddon.logging.auto_replant").define("AutoReplant", true);
+      LOGGING_ALLOW_TOOL_BREAK = builder.comment("If true, tools can break. If false, maid stops using tool at 1 durability.").translation("config.maidaddon.logging.tool_break").define("AllowToolBreak", false);
+      LOGGING_BLACKLIST = builder.comment("List of Log Block IDs to ignore.").translation("config.maidaddon.logging.blacklist").defineList("Blacklist", Arrays.asList("minecraft:crimson_stem", "minecraft:warped_stem"), (o) -> o instanceof String);
+      LOGGING_WHITELIST = builder.comment("List of Block IDs to force treat as logs.").translation("config.maidaddon.logging.whitelist").defineList("Whitelist", List.of(), (o) -> o instanceof String);
+      builder.pop();
+      builder.push("mining");
+      builder.comment("Settings for the Miner Task");
+      MINING_MAX_VEIN_SIZE = builder.comment("Maximum blocks to mine in one operation.").translation("config.maidaddon.mining.max_vein").defineInRange("MaxVeinSize", 64, 1, 1024);
+      MINING_SCAN_RANGE = builder.comment("Radius to search for ores.").translation("config.maidaddon.mining.range").defineInRange("ScanRange", 8, 1, 32);
+      MINING_XRAY_MODE = builder.comment("If true, scans through walls. If false, line-of-sight required.").translation("config.maidaddon.mining.xray").define("XRayMode", false);
+      MINING_ALLOW_TOOL_BREAK = builder.comment("If true, pickaxes can break.").translation("config.maidaddon.mining.tool_break").define("AllowToolBreak", false);
+      MINING_CHECK_TOOL_TIER = builder.comment("If true, maid checks if tool tier (iron, diamond, etc) is high enough for drops.").translation("config.maidaddon.mining.tier_check").define("CheckToolTier", true);
+      MINING_BLACKLIST = builder.comment("Block IDs to ignore.").translation("config.maidaddon.mining.blacklist").defineList("Blacklist", List.of(), (o) -> o instanceof String);
+      MINING_WHITELIST = builder.comment("Block IDs to force mine.").translation("config.maidaddon.mining.whitelist").defineList("Whitelist", List.of(), (o) -> o instanceof String);
+      builder.pop();
+      builder.push("water");
+      builder.comment("Settings for the Water Task");
+      WATER_RETRIEVE_DELAY = builder.comment("Ticks to wait before picking water back up.").translation("config.maidaddon.water.retrieve_delay").defineInRange("RetrieveDelay", 5, 0, 100);
+      WATER_MIN_FALL_DISTANCE = builder.comment("Minimum fall distance before attempting water save.").translation("config.maidaddon.water.fall_distance").defineInRange("MinFallDistance", (double)3.0F, (double)1.0F, (double)256.0F);
+      WATER_LOOKAHEAD = builder.comment("Number of blocks to look ahead for ground impact.").translation("config.maidaddon.water.lookahead").defineInRange("SafetyMargin", 3, 1, 10);
+      builder.pop();
+      builder.push("alchemist");
+      builder.comment("Settings for the Alchemist Task");
+      ALCHEMIST_USE_BACKPACK = builder.comment("If true, maid checks backpack for potions.").translation("config.maidaddon.alchemist.use_backpack").define("UseBackpack", true);
+      ALCHEMIST_INFINITE_POTIONS = builder.comment("If true, throwing potions does not consume them.").translation("config.maidaddon.alchemist.infinite").define("InfinitePotions", false);
+      ALCHEMIST_POTIONS_SELF = builder.comment("If true, maid will throw health/buff potions at herself if needed.").translation("config.maidaddon.alchemist.potion_self").define("PotionSelf", false);
+      ALCHEMIST_HEAL_THRESHOLD = builder.comment("Health % (0.0 - 1.0) to trigger healing.").translation("config.maidaddon.alchemist.heal_threshold").defineInRange("HealThreshold", 0.6, 0.1, (double)1.0F);
+      ALCHEMIST_THROW_DELAY = builder.comment("Aiming time in ticks.").translation("config.maidaddon.alchemist.throw_delay").defineInRange("ThrowDelay", 10, 0, 100);
+      ALCHEMIST_THROW_COOLDOWN = builder.comment("Cooldown between throws in ticks.").translation("config.maidaddon.alchemist.throw_cooldown").defineInRange("ThrowCooldown", 20, 0, 200);
+      ALCHEMIST_FRIENDLY_FIRE_RANGE = builder.comment("Radius (in blocks) to check for friendly fire. Maid won't throw harmful potions if her owner is within this range of the target.").translation("config.maidaddon.alchemist.friendly_fire_range").defineInRange("FriendlyFireRange", (double)6.0F, (double)0.0F, (double)20.0F);
+      ALCHEMIST_THROW_NEGATIVE = builder.comment("If true, maid will throw harmful potions at enemies.").translation("config.maidaddon.alchemist.throw_negative").define("ThrowDebuffs", true);
+      ALCHEMIST_THROW_POSITIVE = builder.comment("If true, maid will throw beneficial potions at Master/Self.").translation("config.maidaddon.alchemist.throw_positive").define("ThrowBuffs", true);
+      ALCHEMIST_HEAL_UNDEAD = builder.comment("If true, maid uses Healing Potions to damage Undead enemies.").translation("config.maidaddon.alchemist.heal_undead").define("DamageUndeadWithHeal", false);
+      builder.pop();
+      builder.push("organizing");
+      builder.comment("Settings for the Organizing Task");
+      ORGANIZING_SORT_COOLDOWN = builder.comment("Cooldown (in ticks) for a container after it has been sorted.").translation("config.maidaddon.organizing.sort_cooldown").defineInRange("SortCooldown", 600, 0, 72000);
+      ORGANIZING_ANIMATION_TICKS = builder.comment("How long (in ticks) the sorting animation should last.").translation("config.maidaddon.organizing.animation_ticks").defineInRange("AnimationTicks", 20, 0, 100);
+      ORGANIZING_ALGORITHM = builder.comment("Algorithm to use for sorting.").translation("config.maidaddon.organizing.algorithm").defineEnum("Algorithm", SortAlgorithm.ITEM_TYPE);
+      ORGANIZING_BLACKLIST = builder.comment("List of container Block IDs to ignore (e.g., 'minecraft:chest').").translation("config.maidaddon.organizing.blacklist").defineList("Blacklist", List.of(), (o) -> o instanceof String);
+      builder.pop();
+      builder.push("fueling");
+      builder.comment("Settings for the Fueling Task");
+      FUELING_FURNACE_COOLDOWN = builder.comment("Cooldown (in ticks) for a furnace after it has been fueled.").translation("config.maidaddon.fueling.furnace_cooldown").defineInRange("FurnaceCooldown", 100, 0, 72000);
+      FUELING_ALGORITHM = builder.comment("Algorithm to use for selecting fuel.").translation("config.maidaddon.fueling.algorithm").defineEnum("Algorithm", FuelingAlgorithm.COST_EFFICIENCY);
+      FUELING_SAVE_FUEL = builder.comment("If true, maid will not use fuel if it would be wasted (e.g., using coal for one item).").translation("config.maidaddon.fueling.save_fuel").define("SaveFuel", true);
+      FUELING_STRICTLY_NO_WASTE = builder.comment("If true, maid will only use fuel if it results in zero waste.").translation("config.maidaddon.fueling.strictly_no_waste").define("StrictlyNoWaste", false);
+      FUELING_USE_INVENTORY_FUELS = builder.comment("If true, maid will search her inventory for fuel.").translation("config.maidaddon.fueling.use_inventory_fuels").define("UseInventoryFuels", true);
+      FUELING_BLACKLIST = builder.comment("List of fuel Item IDs to ignore (e.g., 'minecraft:coal').").translation("config.maidaddon.fueling.blacklist").defineList("Blacklist", List.of(), (o) -> o instanceof String);
+      FUELING_ITEM_BLACKLIST = builder.comment("List of item IDs to ignore when checking if a furnace needs fuel (e.g., 'minecraft:raw_iron').").translation("config.maidaddon.fueling.item_blacklist").defineList("ItemBlacklist", List.of(), (o) -> o instanceof String);
+      builder.pop();
+   }
+
+   static {
+      Pair<MaidAddonConfig, ForgeConfigSpec> specPair = (new ForgeConfigSpec.Builder()).configure(MaidAddonConfig::new);
+      COMMON_SPEC = (ForgeConfigSpec)specPair.getRight();
+      COMMON = (MaidAddonConfig)specPair.getLeft();
+   }
+}
