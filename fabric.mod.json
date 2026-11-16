@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "maidaddon",
+  "id":"maidaddon",
   "version": "1.0.0",
   "name": "Touhou Little Tasks",
   "description": "Adds more tasks to Touhou Little Maid",
@@ -30,6 +30,7 @@
     "minecraft": "~1.21.11",
     "java": "\u003e\u003d21",
     "fabric-api": "*",
-    "touhou_little_maid": "*"
+    "touhou_little_maid": "*",
+    "forgeconfigapiport": "*"
   }
 }
