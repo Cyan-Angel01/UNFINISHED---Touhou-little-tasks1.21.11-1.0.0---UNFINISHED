@@ -38,3 +38,52 @@ public class Brain_Water extends MultiTickTask<LivingEntity> {
         }
         return false;
     }
+    @Override
+    protected void run(ServerWorld world, LivingEntity entity, long time) {
+        this.cleanupTimer = 0;
+        this.waterPlaced = false;
+        this.isFinished = false;
+        this.placementPos = null;
+        if (entity instanceof EntityMaid maid) {
+            maid.getNavigation().stop();
+            if (Task_Water.hasEmptyBucket(maid) && !Task_Water.hasWaterBucket(maid)) {
+                Task_Water.swapBucket(maid, Items.BUCKET, Items.WATER_BUCKET);
+            }
+            this.checkAndPlace(world, maid);
+        }
+    }
+
+    @Override
+    protected void keepRunning(ServerWorld world, LivingEntity entity, long time) {
+        if (entity instanceof EntityMaid maid) {
+            maid.getBrain().forget(MemoryModuleType.HURT_BY);
+            maid.getBrain().forget(MemoryModuleType.HURT_BY_ENTITY);
+            maid.getBrain().forget(MemoryModuleType.NEAREST_HOSTILE);
+            if (!this.waterPlaced) {
+                this.checkAndPlace(world, maid);
+                if (this.getTarget(maid) == null) {
+                    this.isFinished = true;
+                }
+            } else {
+                LivingEntity target = this.getTarget(maid);
+                if (target != null) {
+                    try {
+                        this.cleanupTimer = MaidAddonConfig.WATER_RETRIEVE_DELAY.get();
+                    } catch (Exception e) {
+                        this.cleanupTimer = 20;
+                    }
+                } else if (this.cleanupTimer > 0) {
+                    --this.cleanupTimer;
+                } else {
+                    if (this.placementPos != null) {
+                        BlockState state = world.getBlockState(this.placementPos);
+                        if (state.isOf(Blocks.WATER)) {
+                            world.setBlockState(this.placementPos, Blocks.AIR.getDefaultState());
+                        }
+                    }
+                    Task_Water.swapBucket(maid, Items.BUCKET, Items.WATER_BUCKET);
+                    this.isFinished = true;
+                }
+            }
+        }
+    }
