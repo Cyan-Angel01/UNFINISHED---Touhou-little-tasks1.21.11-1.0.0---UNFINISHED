@@ -87,3 +87,29 @@ public class Brain_Water extends MultiTickTask<LivingEntity> {
             }
         }
     }
+    
+    private LivingEntity getTarget(EntityMaid maid) {
+        double minFall = MaidAddonConfig.WATER_MIN_FALL_DISTANCE.get();
+        LivingEntity owner = maid.getOwner();
+        if (owner == null || !((double) owner.fallDistance > minFall) && !(owner.getVelocity().y < -0.6)) {
+            if (owner != null && owner.isTouchingWater()) {
+                return owner;
+            } else if (!((double) maid.fallDistance > minFall) && !(maid.getVelocity().y < -0.6)) {
+                return maid.isTouchingWater() ? maid : null;
+            } else {
+                return maid;
+            }
+        } else {
+            return owner;
+        }
+    }
+
+    private void checkAndPlace(ServerWorld world, EntityMaid maid) {
+        LivingEntity target = this.getTarget(maid);
+        if (target == null) return;
+        double minFall = MaidAddonConfig.WATER_MIN_FALL_DISTANCE.get();
+        boolean isMLG = (double) target.fallDistance > minFall || target.getVelocity().y < -0.6;
+        if (maid.squaredDistanceTo(target) > 100.0) {
+            maid.getNavigation().startMovingTo(target, 2.3);
+            if (isMLG) return;
+        }
