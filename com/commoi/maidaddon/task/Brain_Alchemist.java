@@ -11,7 +11,7 @@ import java.util.Set;
 import net.minecraft.class_1268;
 import net.minecraft.class_1294;
 import net.minecraft.class_1304;
-import net.minecraft.class_1309;
+import net.minecraft.LivingEntity;
 import net.minecraft.class_1310;
 import net.minecraft.class_1588;
 import net.minecraft.class_1657;
@@ -19,7 +19,7 @@ import net.minecraft.class_1686;
 import net.minecraft.class_1799;
 import net.minecraft.class_1803;
 import net.minecraft.class_1828;
-import net.minecraft.class_1842;
+import net.minecraft.Potion;
 import net.minecraft.class_1844;
 import net.minecraft.class_1847;
 import net.minecraft.class_243;
@@ -27,32 +27,32 @@ import net.minecraft.class_3218;
 import net.minecraft.class_3417;
 import net.minecraft.class_3419;
 import net.minecraft.class_3486;
-import net.minecraft.class_4097;
+import net.minecraft.Behavior;
 
-public class Brain_Alchemist extends class_4097<class_1309> {
+public class Brain_Alchemist extends Behavior<LivingEntity> {
    private int cooldownTimer = 0;
    private int aimTicks = 0;
-   private class_1309 cachedTarget = null;
+   private LivingEntity cachedTarget = null;
    private FindResult cachedResult = null;
    private static final double THROW_RANGE_SQ = (double)225.0F;
    private static final int DARKNESS_THRESHOLD = 7;
    private static final double MIN_THROW_DIST_SQ = (double)9.0F;
-   private static final Set<class_1842> FIRE_POTIONS = new HashSet();
-   private static final Set<class_1842> HEAL_POTIONS = new HashSet();
-   private static final Set<class_1842> NIGHT_VISION_POTIONS = new HashSet();
-   private static final Set<class_1842> SWIFTNESS_POTIONS = new HashSet();
-   private static final Set<class_1842> LEAPING_POTIONS = new HashSet();
-   private static final Set<class_1842> SLOW_FALLING_POTIONS = new HashSet();
-   private static final Set<class_1842> WATER_BREATHING_POTIONS = new HashSet();
-   private static final Set<class_1842> STRENGTH_POTIONS = new HashSet();
-   private static final Set<class_1842> TURTLE_MASTER_POTIONS = new HashSet();
-   private static final Set<class_1842> INVISIBILITY_POTIONS = new HashSet();
-   private static final Set<class_1842> LUCK_POTIONS = new HashSet();
-   private static final Set<class_1842> HARM_POTIONS = new HashSet();
-   private static final Set<class_1842> POISON_POTIONS = new HashSet();
-   private static final Set<class_1842> WEAKNESS_POTIONS = new HashSet();
-   private static final Set<class_1842> SLOWNESS_POTIONS = new HashSet();
-   private static final Set<class_1842> WITHER_POTIONS = new HashSet();
+   private static final Set<Potion> FIRE_POTIONS = new HashSet();
+   private static final Set<Potion> HEAL_POTIONS = new HashSet();
+   private static final Set<Potion> NIGHT_VISION_POTIONS = new HashSet();
+   private static final Set<Potion> SWIFTNESS_POTIONS = new HashSet();
+   private static final Set<Potion> LEAPING_POTIONS = new HashSet();
+   private static final Set<Potion> SLOW_FALLING_POTIONS = new HashSet();
+   private static final Set<Potion> WATER_BREATHING_POTIONS = new HashSet();
+   private static final Set<Potion> STRENGTH_POTIONS = new HashSet();
+   private static final Set<Potion> TURTLE_MASTER_POTIONS = new HashSet();
+   private static final Set<Potion> INVISIBILITY_POTIONS = new HashSet();
+   private static final Set<Potion> LUCK_POTIONS = new HashSet();
+   private static final Set<Potion> HARM_POTIONS = new HashSet();
+   private static final Set<Potion> POISON_POTIONS = new HashSet();
+   private static final Set<Potion> WEAKNESS_POTIONS = new HashSet();
+   private static final Set<Potion> SLOWNESS_POTIONS = new HashSet();
+   private static final Set<Potion> WITHER_POTIONS = new HashSet();
 
    public Brain_Alchemist() {
       super(ImmutableMap.of());
@@ -62,9 +62,9 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       return ((Double)MaidAddonConfig.ALCHEMIST_HEAL_THRESHOLD.get()).floatValue();
    }
 
-   private List<class_1309> getTargets(EntityMaid maid, class_3218 world) {
-      List<class_1309> targets = new ArrayList();
-      class_1309 owner = maid.method_35057();
+   private List<LivingEntity> getTargets(EntityMaid maid, class_3218 world) {
+      List<LivingEntity> targets = new ArrayList();
+      LivingEntity owner = maid.method_35057();
       if (owner != null && owner.method_5805() && maid.method_5858(owner) <= (double)225.0F) {
          targets.add(owner);
       }
@@ -81,7 +81,7 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       return targets;
    }
 
-   protected boolean method_18919(class_3218 world, class_1309 entity) {
+   protected boolean method_18919(class_3218 world, LivingEntity entity) {
       if (entity instanceof EntityMaid maid) {
          if (maid.method_24345()) {
             return false;
@@ -89,11 +89,11 @@ public class Brain_Alchemist extends class_4097<class_1309> {
             --this.cooldownTimer;
             return false;
          } else {
-            List<class_1309> targets = this.getTargets(maid, world);
+            List<LivingEntity> targets = this.getTargets(maid, world);
             if (targets.isEmpty()) {
                return false;
             } else {
-               for(class_1309 target : targets) {
+               for(LivingEntity target : targets) {
                   FindResult res = this.determinePotionForTarget(world, maid, target);
                   if (res != null && res.found) {
                      this.cachedTarget = target;
@@ -112,18 +112,18 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       }
    }
 
-   protected boolean method_18927(class_3218 world, class_1309 entity, long time) {
+   protected boolean method_18927(class_3218 world, LivingEntity entity, long time) {
       return this.cachedTarget != null && this.cachedTarget.method_5805() && this.cachedResult != null;
    }
 
-   protected void method_18920(class_3218 world, class_1309 entity, long time) {
+   protected void method_18920(class_3218 world, LivingEntity entity, long time) {
    }
 
-   protected void method_18924(class_3218 world, class_1309 entity, long time) {
+   protected void method_18924(class_3218 world, LivingEntity entity, long time) {
       if (entity instanceof EntityMaid maid) {
          if (this.cachedTarget != null && this.cachedResult != null) {
             if (this.cachedTarget instanceof class_1588) {
-               class_1309 owner = maid.method_35057();
+               LivingEntity owner = maid.method_35057();
                double friendlyFireRange = (Double)MaidAddonConfig.ALCHEMIST_FRIENDLY_FIRE_RANGE.get();
                if (owner != null && owner.method_5858(this.cachedTarget) < friendlyFireRange * friendlyFireRange) {
                   this.finish(world, maid, time);
@@ -163,7 +163,7 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       }
    }
 
-   protected void finish(class_3218 world, class_1309 entity, long time) {
+   protected void finish(class_3218 world, LivingEntity entity, long time) {
       this.cachedTarget = null;
       this.cachedResult = null;
       this.aimTicks = 0;
@@ -182,12 +182,12 @@ public class Brain_Alchemist extends class_4097<class_1309> {
 
    }
 
-   private FindResult determinePotionForTarget(class_3218 world, EntityMaid maid, class_1309 target) {
+   private FindResult determinePotionForTarget(class_3218 world, EntityMaid maid, LivingEntity target) {
       boolean isEnemy = target instanceof class_1588;
       return isEnemy ? this.determineEnemyPotions(maid, target) : this.determineFriendlyPotions(world, maid, target);
    }
 
-   private FindResult determineFriendlyPotions(class_3218 world, EntityMaid maid, class_1309 target) {
+   private FindResult determineFriendlyPotions(class_3218 world, EntityMaid maid, LivingEntity target) {
       if (!(Boolean)MaidAddonConfig.ALCHEMIST_THROW_POSITIVE.get()) {
          return null;
       } else {
@@ -254,7 +254,7 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       }
    }
 
-   private FindResult determineEnemyPotions(EntityMaid maid, class_1309 target) {
+   private FindResult determineEnemyPotions(EntityMaid maid, LivingEntity target) {
       if (!(Boolean)MaidAddonConfig.ALCHEMIST_THROW_NEGATIVE.get()) {
          return null;
       } else {
@@ -310,7 +310,7 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       }
    }
 
-   private void performThrow(class_3218 world, EntityMaid maid, class_1309 target, class_1799 stack) {
+   private void performThrow(class_3218 world, EntityMaid maid, LivingEntity target, class_1799 stack) {
       class_243 spawnPos = maid.method_33571().method_1019(maid.method_5720().method_1021(0.3));
       class_1686 potionEntity = new class_1686(world, maid);
       potionEntity.method_16940(stack);
@@ -327,7 +327,7 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       maid.method_6104(class_1268.field_5808);
    }
 
-   private FindResult findPotion(EntityMaid maid, Set<class_1842> validPotions) {
+   private FindResult findPotion(EntityMaid maid, Set<Potion> validPotions) {
       if (this.isValidStack(maid.method_6047(), validPotions)) {
          return new FindResult(true, maid.method_6047(), -1, true, false);
       } else if (this.isValidStack(maid.method_6079(), validPotions)) {
@@ -348,13 +348,13 @@ public class Brain_Alchemist extends class_4097<class_1309> {
       }
    }
 
-   private boolean isValidStack(class_1799 stack, Set<class_1842> validPotions) {
+   private boolean isValidStack(class_1799 stack, Set<Potion> validPotions) {
       if (stack.method_7960()) {
          return false;
       } else if (!(stack.method_7909() instanceof class_1828) && !(stack.method_7909() instanceof class_1803)) {
          return false;
       } else {
-         class_1842 potion = class_1844.method_8063(stack);
+         Potion potion = class_1844.method_8063(stack);
          return validPotions.contains(potion);
       }
    }
