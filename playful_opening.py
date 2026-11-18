@@ -53,4 +53,4 @@ if len(name) > 0
     input(zero + "(press enter to end)")
 
 else:
-    print("failure. Try again")
+    print("Error, no name typed. Please try again.")
