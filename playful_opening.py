@@ -40,7 +40,7 @@ if len(name) > 0
     print(f" " + Cyan + "Hai, {1}! Is that okay?")
     time.sleep(0.5)
     input("Yeah, thought so." + zero "(press enter to continue)")
-    input("Okay. Now i'll tell you... This actuall^ isn't anything!")
+    input("Okay. Now i'll tell you... This actually isn't anything!")
     input("out of boredom, I posted this along. No reason why. Just wanted to.")
     input(f"Now go. Shoo. Scram, {1}. May we meet again.")
     input("Oh, you're still here?")
