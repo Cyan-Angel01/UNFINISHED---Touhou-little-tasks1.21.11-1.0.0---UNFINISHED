@@ -28,7 +28,7 @@ def input(prompt=""):
 
 
 #Main op
-print(Cyan + "Hai! Please input your name to start!" + zero)
+print(Cyan + "Hai! Please input your name to start! (one word only. Allias/nicnames are fine.)" + zero)
 time.sleep(1)
 name = input(">>   " )
 
@@ -53,4 +53,4 @@ if len(name) > 0
     input(zero + "(press enter to end)")
 
 else:
-    print("Error, no name typed. Please try again.")
+    print(Red + "Error, no name typed. Please try again.")
