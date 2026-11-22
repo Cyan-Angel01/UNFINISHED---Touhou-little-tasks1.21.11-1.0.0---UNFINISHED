@@ -1,5 +1,6 @@
 import time
 
+
 #####Color codes#####
 Green = "\033[32m"
 Cyan = "\033[36m"
