@@ -1,0 +1,13 @@
+The next ones to fix
+
+1.) com/commoi/maidaddon/task/Brain_Organizing.java
+2.) com/commoi/maidaddon/task/Brain_Fueling.java
+3.) com/commoi/maidaddon/task/Brain_Logging.java
+4.) com/commoi/maidaddon/task/Brain_Mining.java
+5.) com/commoi/maidaddon/task/Brain_Alchemist.java
+
+For now, just the brain files. Next will be the Task files like Task_Fueling.java, Task_Water.java, and etc.
+
+Lastly will be Algorithm files, com/commoi/maidaddon/task/fuel/FuelingAlgorithm.java and sort/SortAlgorithm.java.
+
+Then the final will be polishing and etc.
