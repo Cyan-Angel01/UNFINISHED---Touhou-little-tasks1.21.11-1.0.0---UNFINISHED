@@ -28,20 +28,19 @@ def input(prompt=""):
 
 
 #Main op
-print(Cyan + "Hai! Please input your name to start! (one word only. Allias/nicnames are fine.)" + zero)
-time.sleep(1)
+print(Cyan + "Hai! Please input your name to start! (one word only. Allias/nicknames are fine.)" + zero)
+time.sleep(0.5)
 name = input(">>   " )
 
 if len(name) > 0
     partial = name.split()
     
     partial[0] = 1
-    partial[1] = 2
     print(f" " + Cyan + "Hai, {1}! Is that okay?")
-    time.sleep(0.5)
-    input("Yeah, thought so." + zero "(press enter to continue)")
-    input("Okay. Now i'll tell you... This actually isn't anything!")
-    input("out of boredom, I posted this along. No reason why. Just wanted to.")
+    time.sleep(1)
+    input("Yeah, thought so." + zero + "(press enter to continue)")
+    input("Okay. Now I'll tell you... This actually isn't anything!")
+    input("Out of boredom, I posted this along. No reason why. Just wanted to.")
     input(f"Now go. Shoo. Scram, {1}. May we meet again.")
     input("Oh, you're still here?")
     input("Okay. I'm Ka1t0. I will appear as a python file in every posts of Cyan-Angel01")
@@ -53,4 +52,8 @@ if len(name) > 0
     input(zero + "(press enter to end)")
 
 else:
-    print(Red + "Error, no name typed. Please try again.")
+    print(Red + "Error, no name/wrong form typed. Please try again.")
+
+
+
+#Recomended to run in Termux if you want to see the color codes. Not sure about other apps. I only used Termux and GitHub.
